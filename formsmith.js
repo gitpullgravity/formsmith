@@ -33,7 +33,7 @@ var types = {
         <div class='fs-array'>
           <ul class='fs-children'>
           ${
-            data.map(function(){
+            data[schemaItem.key].map(function(){
               return `
                 <li class='fs-child'>
                   <div class='fs-array-delete'></div>
@@ -47,12 +47,12 @@ var types = {
       `;
       let el = append(element, html);
       el.querySelector('.fs-array-add').addEventListener('click', function() {
-        data.push({});
+        data[schemaItem.key].push({});
         smith.reform();
       });
       Array.prototype.forEach.call(el.querySelectorAll('.fs-array-delete'), function(x, i) {
         x.addEventListener('click', function() {
-          data.splice(i, 1);
+          data[schemaItem.key].splice(i, 1);
           smith.reform();
         });
       });
@@ -65,9 +65,14 @@ var types = {
     },
     render: function(element, schemaItem, data, smith) {
       let html = `
-        <input class='fs-number' type='number' value=${ data }>
+        <input class='fs-number' type='number' value=${ data[schemaItem.key] }>
       `
-      return append(element, html)
+      let el = append(element, html);
+      el.addEventListener('keyup', function(){
+        data[schemaItem.key] = this.value;
+        smith.change();
+      });
+      return el;
     }
   },
   "Textarea": {
@@ -77,7 +82,7 @@ var types = {
     },
     render: function(element, schemaItem, data) {
       let html = `
-        <textarea class='fs-textarea'>${ data }</textarea>
+        <textarea class='fs-textarea'>${ data[schemaItem.key] }</textarea>
       `
       return append(element, html)
     }
@@ -89,7 +94,7 @@ var types = {
     },
     render: function(element, schemaItem, data) {
       let html = `
-        <input class='fs-input' type='text' value='${ data }'>
+        <input class='fs-input' type='text' value='${ data[schemaItem.key] }'>
       `
       return append(element, html)
     }
@@ -142,13 +147,16 @@ FormSmith.prototype.buildForm = function(schema, data, element) {
     let newDiv = document.createElement('div');
     newDiv.classList.add('fs-item');
     element.appendChild(newDiv);
-    self.buildNode(item, data[item.key], newDiv);
+    self.buildNode(item, data, newDiv);
   });
 }
 
 FormSmith.prototype.buildNode = function(schemaItem, data, element) {
   var self = this;
-  let bus = { reform: function() { this.buildNode(schemaItem, data, element); }.bind(this) };
+  let bus = {
+    reform: function() { self.buildNode(schemaItem, data, element); }.bind(self),
+    change: self.onChange.bind(self)
+  };
   // Strangely, the following line did not work. I wonder why?
   // bus.reform.bind(this);
 
@@ -156,7 +164,7 @@ FormSmith.prototype.buildNode = function(schemaItem, data, element) {
 
   // If the schema contains a schema, we nest and recursively call buildForm
   if (schemaItem.schema) {
-    data.forEach(function(dataNode, i) {
+    data[schemaItem.key].forEach(function(dataNode, i) {
       // Each type supporting children is responsible for rendering this
       var elementToRenderInto = el.querySelectorAll('.fs-child')[i]
                                     .querySelector('.fs-child-contents');
