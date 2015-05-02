@@ -1,0 +1,55 @@
+#form {
+  width: 500px;
+}
+
+.fs-array-add {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.fs-children {
+  list-style-type: none;
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+}
+
+.fs-child {
+  position: relative;
+  border-bottom: 1px solid gray;
+  margin: 5px;
+  padding: 5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.fs-child-contents {
+  margin-right: 20px;
+}
+
+.fs-array {
+  box-sizing: border-box;
+}
+
+.fs-array-delete:after {
+  content: "x";
+  display: block;
+  font-family: sans-serif;
+  border-radius: 50%;
+  background-color: red;
+  width: 15px;
+  height: 15px;
+  line-height: 15px;
+  text-align: center;
+  color: white;
+}
+
+.fs-array-delete {
+  position: absolute;
+  right: 0px;
+  cursor: pointer;
+}

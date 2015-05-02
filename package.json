@@ -1,0 +1,20 @@
+{
+  "name": "formsmith",
+  "version": "0.0.1",
+  "description": "A declarative way to create configuration forms, from JSON schema to customizable UI",
+  "main": "formsmith.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gitpullgravity/formsmith.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gitpullgravity/formsmith/issues"
+  },
+  "homepage": "https://github.com/gitpullgravity/formsmith#readme",
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-babel": "^5.1.0"
+  }
+}
