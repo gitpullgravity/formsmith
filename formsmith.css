@@ -2,6 +2,14 @@
   width: 500px;
 }
 
+.fs-item {
+  margin: 5px 0px;
+}
+
+.fs-array {
+  box-sizing: border-box;
+}
+
 .fs-array-add {
   width: 100%;
   padding: 5px;
@@ -9,6 +17,26 @@
   border-radius: 5px;
   cursor: pointer;
   text-align: center;
+}
+
+
+.fs-array-delete:after {
+  content: "x";
+  display: block;
+  font-family: sans-serif;
+  border-radius: 50%;
+  background-color: red;
+  width: 15px;
+  height: 15px;
+  line-height: 15px;
+  text-align: center;
+  color: white;
+}
+
+.fs-array-delete {
+  position: absolute;
+  right: 0px;
+  cursor: pointer;
 }
 
 .fs-children {
@@ -31,25 +59,6 @@
   margin-right: 20px;
 }
 
-.fs-array {
-  box-sizing: border-box;
-}
-
-.fs-array-delete:after {
-  content: "x";
-  display: block;
-  font-family: sans-serif;
-  border-radius: 50%;
-  background-color: red;
-  width: 15px;
-  height: 15px;
-  line-height: 15px;
-  text-align: center;
-  color: white;
-}
-
-.fs-array-delete {
-  position: absolute;
-  right: 0px;
-  cursor: pointer;
+.fs-textarea {
+  width: 100%;
 }
