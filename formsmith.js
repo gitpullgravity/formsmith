@@ -133,11 +133,19 @@ function FormSmith(schema, config, element) {
   this.schema = schema;
   this.config = config;
   this.element = element;
+  this.changeCallbacks = [];
   this.buildForm(schema, config, element)
 }
 
 FormSmith.prototype.onChange = function(callback, context) {
-  callback.apply(context, this.config);
+  this.changeCallbacks.push({ cb: callback, ctx: context });
+}
+
+FormSmith.prototype.handleChange = function() {
+  var self = this;
+  self.changeCallbacks.forEach(function(callbackObj) {
+    callbackObj.cb.call(callbackObj.context, self.config);
+  });
 }
 
 FormSmith.prototype.buildForm = function(schema, data, element) {
@@ -155,7 +163,7 @@ FormSmith.prototype.buildNode = function(schemaItem, data, element) {
   var self = this;
   let bus = {
     reform: function() { self.buildNode(schemaItem, data, element); }.bind(self),
-    change: self.onChange.bind(self)
+    change: self.handleChange.bind(self)
   };
   // Strangely, the following line did not work. I wonder why?
   // bus.reform.bind(this);
@@ -174,3 +182,4 @@ FormSmith.prototype.buildNode = function(schemaItem, data, element) {
 }
 
 var fs = new FormSmith(sampleschema, config, document.querySelector('#form'));
+fs.onChange(function(x) { console.log(x); });
