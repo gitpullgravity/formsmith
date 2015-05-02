@@ -97,11 +97,11 @@ var types = {
 }
 
 // schema + element + object => element
-function renderItem(schemaItem, element, data) {
+function renderItem(schemaItem, element, data, bus) {
   element.innerHTML = '';
   var defaults = types[schemaItem.type].defaults;
   Object.assign(schemaItem, defaults);
-  return types[schemaItem.type].render(element, schemaItem, data);
+  return types[schemaItem.type].render(element, schemaItem, data, bus);
 }
 
 // object + schema => object
@@ -142,8 +142,9 @@ FormSmith.prototype.buildForm = function(schema, data, element) {
 
 FormSmith.prototype.buildNode = function(schemaItem, data, element) {
   var self = this;
-  let bus = { reform: function() { this.buildNode(schemaItem, data, element); }};
-  bus.reform.bind(this);
+  let bus = { reform: function() { this.buildNode(schemaItem, data, element); }.bind(this) };
+  // Strangely, the following line did not work. I wonder why?
+  // bus.reform.bind(this);
 
   var el = renderItem(schemaItem, element, data, bus);
 
