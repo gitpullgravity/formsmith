@@ -80,11 +80,16 @@ var types = {
       config: "",
       placeholder: "Enter text"
     },
-    render: function(element, schemaItem, data) {
+    render: function(element, schemaItem, data, smith) {
       let html = `
         <textarea class='fs-textarea'>${ data[schemaItem.key] }</textarea>
       `
-      return append(element, html)
+      let el = append(element, html);
+      el.addEventListener('keyup', function(){
+        data[schemaItem.key] = this.value;
+        smith.change();
+      });
+      return el;
     }
   },
   "Input": {
@@ -96,14 +101,24 @@ var types = {
       let html = `
         <input class='fs-input' type='text' value='${ data[schemaItem.key] }'>
       `
-      return append(element, html)
+      let el = append(element, html);
+      el.addEventListener('keyup', function(){
+        data[schemaItem.key] = this.value;
+        smith.change();
+      });
+      return el;
     }
   },
   "Information": {
     defaults: {
       config: ""
     },
-    render: function(element, schemaItem, data) { }
+    render: function(element, schemaItem, data) {
+      let html = `
+        <div class='fs-info'>${ data[schemaItem.key] }</div>
+      `
+      return append(element, html);
+    }
   }
 }
 
