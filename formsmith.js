@@ -45,12 +45,18 @@ var types = {
           <div class='fs-array-add'>${ schemaItem.buttonLabel }</div>
         </div>
       `;
-      let renderedEl = append(element, html);
-      renderedEl.querySelector('.fs-array-add').addEventListener('click', function() {
+      let el = append(element, html);
+      el.querySelector('.fs-array-add').addEventListener('click', function() {
         data.push({});
         smith.reform();
       });
-      return renderedEl;
+      Array.prototype.forEach.call(el.querySelectorAll('.fs-array-delete'), function(x, i) {
+        x.addEventListener('click', function() {
+          data.splice(i, 1);
+          smith.reform();
+        });
+      });
+      return el;
     }
   },
   "Number": {
