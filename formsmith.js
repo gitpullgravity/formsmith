@@ -4,22 +4,21 @@ var sampleschema = [
     key: "list",
     schema: [
       {
-        type: "Number",
-        key: "number"
-      }, {
-        type: "Textarea",
-        key: "text"
+        type: "Array",
+        key: "listinner",
+        schema: [
+          {
+            type: "Textarea",
+            key: "text"
+          }
+        ]
       }
     ]
-  }, {
-    type: "Input",
-    key: "input"
   }
 ]
 
 var config = {
-  list: [{ 'number': 1, 'text': 'Hello' }, { 'number': 2 }],
-  input: 'hi'
+
 };
 
 var types = {
@@ -46,14 +45,18 @@ var types = {
         </div>
       `;
       let el = append(element, html);
-      el.querySelector('.fs-array-add').addEventListener('click', function() {
+      el.querySelector(':scope > .fs-array-add').addEventListener('click', function() {
         data[schemaItem.key].push({});
         smith.reform();
+        smith.change();
       });
-      Array.prototype.forEach.call(el.querySelectorAll('.fs-array-delete'), function(x, i) {
-        x.addEventListener('click', function() {
+      let childDom = el.querySelector('.fs-children');
+      let domList = childDom.querySelectorAll(':scope > .fs-child');
+      Array.prototype.forEach.call(domList, function(li, i) {
+        li.querySelector('.fs-array-delete').addEventListener('click', function() {
           data[schemaItem.key].splice(i, 1);
           smith.reform();
+          smith.change();
         });
       });
       return el;
@@ -189,12 +192,13 @@ FormSmith.prototype.buildNode = function(schemaItem, data, element) {
   if (schemaItem.schema) {
     data[schemaItem.key].forEach(function(dataNode, i) {
       // Each type supporting children is responsible for rendering this
-      var elementToRenderInto = el.querySelectorAll('.fs-child')[i]
-                                    .querySelector('.fs-child-contents');
+      var elementToRenderInto = el.querySelector('.fs-children')
+                                    .querySelectorAll(':scope > .fs-child')[i]
+                                      .querySelector('.fs-child-contents');
       self.buildForm(schemaItem.schema, dataNode, elementToRenderInto);
     });
   }
 }
 
 var fs = new FormSmith(sampleschema, config, document.querySelector('#form'));
-fs.onChange(function(x) { console.log(x); });
+fs.onChange(function(x) { console.log(JSON.stringify(x, null, 2)); });
