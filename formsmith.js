@@ -147,6 +147,12 @@ function append(element, string) {
   return realElement;
 }
 
+// Returns an object not by reference
+// object => object
+function clone(x) {
+  return JSON.parse(JSON.stringify(x));
+}
+
 function FormSmith(schema, config, element) {
   this.schema = schema;
   this.config = config;
@@ -169,7 +175,8 @@ FormSmith.prototype.handleChange = function() {
 FormSmith.prototype.buildForm = function(schema, data, element) {
   var self = this;
   schema.forEach(function(item, i) {
-    data[item.key] = fillConfigDefaults(data[item.key], item);
+    var defaultConfig = types[item.type].defaults.config;
+    data[item.key] = data[item.key] || clone(defaultConfig);
     let newDiv = document.createElement('div');
     newDiv.classList.add('fs-item');
     element.appendChild(newDiv);
