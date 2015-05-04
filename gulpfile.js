@@ -15,13 +15,13 @@ gulp.task('browserify', watchify(function (watchify) {
 }));
 
 gulp.task('babel', function () {
-  return gulp.src('src/*.js')
+  return gulp.src('src/**/*.js')
     .pipe(babel())
     .pipe(gulp.dest('dist'));
 });
 
 gulp.task('watch', function () {
-  gulp.watch('src/*.js', ['babel', 'browserify']);
+  gulp.watch('src/**/*.js', ['babel', 'browserify']);
 });
 
 gulp.task('default', ['babel', 'browserify', 'watch']);
