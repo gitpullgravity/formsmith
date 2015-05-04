@@ -14,15 +14,6 @@ function fillConfigDefaults(data, schemaItem) {
   return data || types[schemaItem.type].defaults.config;
 }
 
-// DOMelement + string => DOMElement
-function append(element, string) {
-  let tempContainer = document.createElement('div');
-  tempContainer.innerHTML = string.trim();
-  let realElement = tempContainer.firstChild;
-  element.appendChild(realElement);
-  return realElement;
-}
-
 // Returns an object not by reference
 // object => object
 function clone(x) {
