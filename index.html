@@ -7,5 +7,31 @@
 <body>
   <div id="form"></div>
   <script type="text/javascript" src="build/formsmith.js"></script>
+  <script type="text/javascript">
+    var sampleschema = [
+      {
+        type: "Array",
+        key: "list",
+        schema: [
+          {
+            type: "Array",
+            key: "listinner",
+            schema: [
+              {
+                type: "Textarea",
+                key: "text"
+              }
+            ]
+          }
+        ]
+      }
+    ];
+
+    var config = {};
+
+    var fs = new FormSmith(sampleschema, config, document.querySelector('#form'));
+    fs.onChange(function(x) { console.log(JSON.stringify(x, null, 2)); });
+
+  </script>
 </body>
 </html>

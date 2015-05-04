@@ -1,25 +1,3 @@
-var sampleschema = [
-  {
-    type: "Array",
-    key: "list",
-    schema: [
-      {
-        type: "Array",
-        key: "listinner",
-        schema: [
-          {
-            type: "Textarea",
-            key: "text"
-          }
-        ]
-      }
-    ]
-  }
-]
-
-var config = {
-
-};
 
 var types = {
   "Array": {
@@ -206,6 +184,3 @@ FormSmith.prototype.buildNode = function(schemaItem, data, element) {
     });
   }
 }
-
-var fs = new FormSmith(sampleschema, config, document.querySelector('#form'));
-fs.onChange(function(x) { console.log(JSON.stringify(x, null, 2)); });
