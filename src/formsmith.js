@@ -184,3 +184,5 @@ FormSmith.prototype.buildNode = function(schemaItem, data, element) {
     });
   }
 }
+
+module.exports = FormSmith;

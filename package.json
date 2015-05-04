@@ -14,7 +14,11 @@
   },
   "homepage": "https://github.com/gitpullgravity/formsmith#readme",
   "devDependencies": {
+    "babelify": "^6.0.2",
+    "browserify": "^9.0.8",
     "gulp": "^3.8.11",
-    "gulp-babel": "^5.1.0"
+    "gulp-babel": "^5.1.0",
+    "gulp-watchify": "^0.5.0",
+    "watchify": "^3.2.1"
   }
 }
