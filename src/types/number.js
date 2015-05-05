@@ -1,4 +1,4 @@
-const append = require('../append');
+const insert = require('../insert-html');
 
 module.exports = {
   defaults: {
@@ -8,7 +8,7 @@ module.exports = {
     let html = `
       <input class='fs-number' type='number' value=${ data[schemaItem.key] }>
     `
-    let el = append(element, html);
+    let el = insert(element, html);
     el.addEventListener('keyup', function(){
       data[schemaItem.key] = this.value;
       smith.change();

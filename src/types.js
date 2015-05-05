@@ -1,5 +1,3 @@
-const append = require('./append');
-
 module.exports = {
   "Array": require('./types/array'),
   "Number": require('./types/number'),

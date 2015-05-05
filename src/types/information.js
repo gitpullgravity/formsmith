@@ -1,4 +1,4 @@
-const append = require('../append');
+const insert = require('../insert-html');
 
 module.exports = {
   defaults: {
@@ -8,6 +8,6 @@ module.exports = {
     let html = `
       <div class='fs-info'>${ data[schemaItem.key] }</div>
     `
-    return append(element, html);
+    return insert(element, html);
   }
 }

@@ -19,7 +19,7 @@
 
 
 
-const append = require('../append');
+const insert = require('../insert-html');
 
 module.exports = {
   defaults: {
@@ -40,7 +40,7 @@ module.exports = {
         }
       </select>
     `
-    let el = append(element, html);
+    let el = insert(element, html);
     el.addEventListener('change', function() {
       data[schemaItem.key] = this.value;
       smith.change();

@@ -1,4 +1,4 @@
-const append = require('../append');
+const insert = require('../insert-html');
 
 module.exports = {
     defaults: {
@@ -22,7 +22,7 @@ module.exports = {
           <div class='fs-array-add'>${ schemaItem.buttonLabel }</div>
         </div>
       `;
-      let el = append(element, html);
+      let el = insert(element, html);
       el.querySelector(':scope > .fs-array-add').addEventListener('click', function() {
         data[schemaItem.key].push({});
         smith.reform();
