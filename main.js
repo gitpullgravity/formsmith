@@ -13,6 +13,18 @@ var sampleschema = [
           {
             type: "Textarea",
             key: "text"
+          }, {
+            type: "Select",
+            key: "select",
+            options: [
+              {
+                "value": 1,
+                "text": "one"
+              }, {
+                "value": 2,
+                "text": "two"
+              }
+            ]
           }
         ]
       }
