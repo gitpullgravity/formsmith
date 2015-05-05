@@ -1,4 +1,4 @@
-var FormSmith = require('./dist/formsmith');
+var FormSmith = require('./src/formsmith');
 
 
 var sampleschema = [

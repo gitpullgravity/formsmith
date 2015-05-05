@@ -5,5 +5,6 @@ module.exports = {
   "Number": require('./types/number'),
   "Textarea": require('./types/textarea'),
   "Input": require('./types/input'),
-  "Information": require('./types/Information')
+  "Information": require('./types/information'),
+  "Select": require('./types/select'),
 }
