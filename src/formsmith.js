@@ -1,12 +1,13 @@
 const types = require('./types')
+const assign = Object.assign || require('object.assign');
 
 
 // schema + element + object => element
 function renderItem(schemaItem, element, data, bus) {
   element.innerHTML = '';
-  var defaults = types[schemaItem.type].defaults;
-  Object.assign(schemaItem, defaults);
-  return types[schemaItem.type].render(element, schemaItem, data, bus);
+  let defaults = types[schemaItem.type].defaults;
+  let filledSchema = assign({}, defaults, schemaItem);
+  return types[filledSchema.type].render(element, filledSchema, data, bus);
 }
 
 // object + schema => object
