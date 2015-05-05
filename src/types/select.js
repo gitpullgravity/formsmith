@@ -23,7 +23,7 @@ const insert = require('../insert-html');
 
 module.exports = {
   defaults: {
-    config: '',
+    config: null,
     options: []
   },
   render: function(element, schemaItem, data, smith) {
@@ -41,6 +41,8 @@ module.exports = {
       </select>
     `
     let el = insert(element, html);
+    let selectedValue = data[schemaItem.key];
+    el.value = selectedValue ? selectedValue : schemaItem.options[0].value;
     el.addEventListener('change', function() {
       data[schemaItem.key] = this.value;
       smith.change();
