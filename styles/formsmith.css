@@ -1,6 +1,4 @@
-#form {
-  width: 500px;
-}
+
 
 .fs-item {
   margin: 5px 0px;
@@ -63,5 +61,26 @@
 }
 
 .fs-textarea {
+  width: 100%;
+}
+
+.fs-input-container {
+  display: table;
+}
+
+.fs-input-container > span {
+  display: table-cell;
+}
+
+.fs-input-label {
+  white-space: nowrap;
+  padding-right: 5px;
+}
+
+.fs-input-wrapper {
+  width: 100%;
+}
+
+.fs-input {
   width: 100%;
 }
