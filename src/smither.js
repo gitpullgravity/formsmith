@@ -1,36 +1,35 @@
 var FormSmith = require('./formsmith');
 
 
-var sampleschema = [
+var defaultSchema = [
   {
-    type: "Array",
-    key: "list",
-    schema: [
+    "type": "Array",
+    "key": "list",
+    "schema": [
       {
-        type: "Array",
-        key: "listinner",
-        schema: [
-          {
-            type: "Textarea",
-            key: "text"
-          }, {
-            type: "Select",
-            key: "select",
-            options: [
-              {
-                "value": 1,
-                "text": "one"
-              }, {
-                "value": 2,
-                "text": "two"
-              }
-            ]
-          }
-        ]
+        "type": "Textarea",
+        "key": "text"
+      }
+    ]
+  },
+  {
+    "type": "Select",
+    "key": "select",
+    "options": [
+      {
+        "value": 1,
+        "text": "one"
+      },
+      {
+        "value": 2,
+        "text": "two"
       }
     ]
   }
 ];
+
+var storedSchema = localStorage.getItem('schema');
+var schema = (storedSchema) ? JSON.parse(storedSchema) : defaultSchema;
 
 function writeConfig(config) {
 	document.querySelector('#config').innerHTML = JSON.stringify(config, undefined, 2);
@@ -41,6 +40,7 @@ function makeForm(schema) {
 		writeConfig('');
 		return;
 	}
+	localStorage.setItem('schema', JSON.stringify(schema));
 	var config = {};
 	var el = document.querySelector('#form');
 	el.innerHTML = "";
@@ -60,7 +60,7 @@ function getEditorJSON(editor) {
 // create the editor 
 var editor = new JSONEditor(document.querySelector("#jsoneditor"));
 editor.setMode('code');
-editor.set(sampleschema);
+editor.set(schema);
 // jsoneditor is a bit unreliable and I had to circumvent the API
 editor.editorDom.onkeyup = function() {
 	makeForm(getEditorJSON(editor));
