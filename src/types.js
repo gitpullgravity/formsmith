@@ -5,4 +5,5 @@ module.exports = {
   "Input": require('./types/input'),
   "Information": require('./types/information'),
   "Select": require('./types/select'),
+  "Checkbox": require('./types/checkbox'),
 }
