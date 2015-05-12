@@ -4,7 +4,7 @@ var watchify = require('gulp-watchify');
 var babelify = require('babelify');
 
 gulp.task('browserify', watchify(function (watchify) {
-  return gulp.src('main.js')
+  return gulp.src('src/smither.js')
     .pipe(watchify({
       watch: false,
       setup: function (bundle) {

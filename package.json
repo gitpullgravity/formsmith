@@ -19,6 +19,7 @@
     "gulp": "^3.8.11",
     "gulp-babel": "^5.1.0",
     "gulp-watchify": "^0.5.0",
+    "jsoneditor": "git://github.com/josdejong/jsoneditor.git#7c62f5",
     "object.assign": "^2.0.1",
     "watchify": "^3.2.1"
   }
