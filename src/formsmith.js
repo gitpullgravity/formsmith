@@ -1,4 +1,4 @@
-const types = require('./types')
+let types = require('./types')
 const assign = Object.assign || require('object.assign');
 
 
@@ -21,58 +21,72 @@ function clone(x) {
   return JSON.parse(JSON.stringify(x));
 }
 
-function FormSmith(schema, config, element) {
-  this.schema = schema;
-  this.config = config;
-  this.element = element;
-  this.changeCallbacks = [];
-  this.buildForm(schema, config, element)
-}
+class FormSmith {
 
-FormSmith.prototype.onChange = function(callback, context) {
-  this.changeCallbacks.push({ cb: callback, ctx: context });
-}
+  constructor(schema, config, element, options = {}) {
+    this.schema = schema;
+    this.config = config;
+    this.element = element;
+    this.changeCallbacks = [];
+    if (options.plugins) {
+      for (let pluginName in options.plugins) {
+        this.registerFormItemType(pluginName, options.plugins[pluginName]);
+      }
+    }
+    this.buildForm(schema, config, element)
+  }
 
-FormSmith.prototype.handleChange = function() {
-  var self = this;
-  self.changeCallbacks.forEach(function(callbackObj) {
-    callbackObj.cb.call(callbackObj.context, self.config);
-  });
-}
+  onChange(callback, context) {
+    this.changeCallbacks.push({ cb: callback, ctx: context });
+  }
 
-FormSmith.prototype.buildForm = function(schema, data, element) {
-  var self = this;
-  schema.forEach(function(item, i) {
-    var defaultConfig = types[item.type].defaults.config;
-    data[item.key] = data[item.key] || clone(defaultConfig);
-    let newDiv = document.createElement('div');
-    newDiv.classList.add('fs-item');
-    element.appendChild(newDiv);
-    self.buildNode(item, data, newDiv);
-  });
-}
-
-FormSmith.prototype.buildNode = function(schemaItem, data, element) {
-  var self = this;
-  let bus = {
-    reform: function() { self.buildNode(schemaItem, data, element); }.bind(self),
-    change: self.handleChange.bind(self)
-  };
-  // Strangely, the following line did not work. I wonder why?
-  // bus.reform.bind(this);
-
-  var el = renderItem(schemaItem, element, data, bus);
-
-  // If the schema contains a schema, we nest and recursively call buildForm
-  if (schemaItem.schema) {
-    data[schemaItem.key].forEach(function(dataNode, i) {
-      // Each type supporting children is responsible for rendering this
-      var elementToRenderInto = el.querySelector('.fs-children')
-                                    .querySelectorAll(':scope > .fs-child')[i]
-                                      .querySelector('.fs-child-contents');
-      self.buildForm(schemaItem.schema, dataNode, elementToRenderInto);
+  handleChange() {
+    let self = this;
+    self.changeCallbacks.forEach(function(callbackObj) {
+      callbackObj.cb.call(callbackObj.context, self.config);
     });
   }
+
+  buildForm(schema, data, element) {
+    let self = this;
+    schema.forEach(function(item, i) {
+      let defaults = types[item.type].defaults || {};
+      let defaultConfig = defaults.config || {};
+      data[item.key] = data[item.key] || clone(defaultConfig);
+      let newDiv = document.createElement('div');
+      newDiv.classList.add('fs-item');
+      element.appendChild(newDiv);
+      self.buildNode(item, data, newDiv);
+    });
+  }
+
+  buildNode(schemaItem, data, element) {
+    let self = this;
+    let bus = {
+      reform: function() { self.buildNode(schemaItem, data, element); }.bind(self),
+      change: self.handleChange.bind(self)
+    };
+    // Strangely, the following line did not work. I wonder why?
+    // bus.reform.bind(this);
+
+    let el = renderItem(schemaItem, element, data, bus);
+
+    // If the schema contains a schema, we nest and recursively call buildForm
+    if (schemaItem.schema) {
+      data[schemaItem.key].forEach(function(dataNode, i) {
+        // Each type supporting children is responsible for rendering this
+        let elementToRenderInto = el.querySelector('.fs-children')
+                                      .querySelectorAll(':scope > .fs-child')[i]
+                                        .querySelector('.fs-child-contents');
+        self.buildForm(schemaItem.schema, dataNode, elementToRenderInto);
+      });
+    }
+  }
+
+  registerFormItemType(typeName, type) {
+    types[typeName] = type;
+  }
+
 }
 
 module.exports = FormSmith;
